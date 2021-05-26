@@ -63,9 +63,10 @@ func loadConfig() *config.AppConfig{
 	config := &config.AppConfig{}
 	fmt.Println("Inside Load Config")
 	pwd, _ := os.Getwd()
-	fileVal, err := ioutil.ReadFile(pwd + "/SampleGoWebProject/config/config.yaml")
+	configFilePath := pwd + "/sampleGoWebProject/config/config.yaml"
+	fileVal, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
-		log.Fatal("Config could not be found!!")
+		log.Fatal(fmt.Sprintf("Config could not be loaded with error {%+v} from path {%s}!!", err, configFilePath))
 	}
 	err = yaml.Unmarshal(fileVal, config)
 	if err != nil {
