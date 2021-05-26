@@ -7,11 +7,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	sampleRateLimit "github.com/skshukla/sampleRateLimit"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 )
-
 
 func main() {
 	c := &container.Container{}
@@ -19,12 +19,17 @@ func main() {
 	r := mux.NewRouter()
 	r.Handle("/employees", rootHandler(c))
 	r.Handle("/employees/{id}", pathHandler(c))
-	http.ListenAndServe(":" + c.AppConfig.Server.Port, r)
+	http.ListenAndServe(":"+c.AppConfig.Server.Port, r)
 }
 
 func rootHandler(container *container.Container) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
+		err := sampleRateLimit.ValidateRateLimit(&container.AppConfig.RateLimitConfig, r)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintf("Validate Threshold Reached for URL {%s}", r.URL.Path)))
+			return
+		}
 		switch r.Method {
 		case "GET":
 			handleGet(container, r, w)
@@ -77,5 +82,3 @@ func handlePost(container *container.Container, w http.ResponseWriter, r *http.R
 	emp := container.GetEmployeeUseCase().SaveEmployee(nil, &result)
 	w.Write([]byte(fmt.Sprintf("Employee Saved Successfully with Id {%d} ", emp.Id)))
 }
-
-
