@@ -38,12 +38,6 @@ func rootHandler(container *container.Container) http.Handler {
 
 func pathHandler(container *container.Container) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//err := validateRateLimit(container.AppConfig, r)
-		//if err != nil {
-		//	w.WriteHeader(http.StatusInternalServerError)
-		//	w.Write([]byte(fmt.Sprintf("Validate Threshold Reached for URL {%s}", r.URL.Path)))
-		//	return
-		//}
 		switch r.Method {
 		case "GET":
 			vars := mux.Vars(r)
