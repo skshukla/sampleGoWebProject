@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	sampleRateLimit "github.com/skshukla/sampleRateLimit"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -25,13 +24,6 @@ func main() {
 
 func rootHandler(container *container.Container) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		err := sampleRateLimit.ValidateRateLimit(&container.AppConfig.RateLimitConfig , r)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(fmt.Sprintf("Validate Threshold Reached for URL {%s}", r.URL.Path)))
-			return
-		}
 
 		switch r.Method {
 		case "GET":
