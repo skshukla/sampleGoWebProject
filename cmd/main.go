@@ -19,7 +19,7 @@ func main() {
 	r := mux.NewRouter()
 	r.Handle("/employees", rootHandler(c))
 	r.Handle("/employees/{id}", pathHandler(c))
-	http.ListenAndServe(":" + c.AppConfig.Server.Port, r)
+	http.ListenAndServe(":" + c.GetAppConfig().Server.Port, r)
 }
 
 func rootHandler(container *container.Container) http.Handler {

@@ -15,21 +15,21 @@ import (
 )
 
 type Container struct {
-	AppConfig *config.AppConfig
-	Initialized     bool
-	DB              *gorm.DB
+	appConfig       *config.AppConfig
+	initialized     bool
+	db              *gorm.DB
 	employeeUseCase models.EmployeeUseCase
 }
 
 func (c *Container) WireDependencies() {
-	if c.Initialized {
+	if c.initialized {
 		fmt.Println("Already initialized....")
 		return
 	}
-	c.AppConfig = loadConfig()
+	c.appConfig = loadConfig()
 	c.GetEmployeeUseCase()
 	fmt.Println("Dependencies Injection Done!!")
-	c.Initialized = true
+	c.initialized = true
 }
 
 func (c *Container) GetEmployeeUseCase() models.EmployeeUseCase {
@@ -40,11 +40,11 @@ func (c *Container) GetEmployeeUseCase() models.EmployeeUseCase {
 }
 
 func (c *Container) GetDB() *gorm.DB {
-	if c.DB == nil {
+	if c.db == nil {
 		con, _ := CreateDBConnection()
-		c.DB = con
+		c.db = con
 	}
-	return c.DB
+	return c.db
 }
 
 func CreateDBConnection() (*gorm.DB, error) {
@@ -72,4 +72,8 @@ func loadConfig() *config.AppConfig{
 		log.Fatal("Config could not be Unmarshalled!!")
 	}
 	return config
+}
+
+func (c *Container) GetAppConfig()  config.AppConfig{
+	return *c.appConfig
 }
