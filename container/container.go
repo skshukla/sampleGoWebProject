@@ -2,17 +2,16 @@ package container
 
 import (
 	"fmt"
+	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
-
-	"../config"
-	models "../models"
-	repository "../models/employee/repository/postgres"
-	useCase "../models/employee/usecase"
-	"github.com/jinzhu/gorm"
-	_ "github.com/lib/pq"
+	"sampleGoWebProject/config"
+	models "sampleGoWebProject/models"
+	repository "sampleGoWebProject/models/employee/repository/postgres"
+	useCase "sampleGoWebProject/models/employee/usecase"
 )
 
 type Container struct {
@@ -63,7 +62,7 @@ func loadConfig() *config.AppConfig{
 	config := &config.AppConfig{}
 	fmt.Println("Inside Load Config")
 	pwd, _ := os.Getwd()
-	configFilePath := pwd + "/sampleGoWebProject/config/config.yaml"
+	configFilePath := pwd + "/ws_skshukla_go_projects/sampleGoWebProject/config/config.yaml"
 	fileVal, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Config could not be loaded with error {%+v} from path {%s}!!", err, configFilePath))

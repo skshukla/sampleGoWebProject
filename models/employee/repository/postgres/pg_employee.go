@@ -1,8 +1,8 @@
 package postgres
 
 import (
-	models "../../../../models"
 	"github.com/jinzhu/gorm"
+	models "sampleGoWebProject/models"
 )
 type employeeRepository struct {
 	DB *gorm.DB

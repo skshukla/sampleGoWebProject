@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"context"
-	"../../../models"
+	"sampleGoWebProject/models"
 )
 
 type employeeUseCase struct {

@@ -1,14 +1,14 @@
 package main
 
 import (
-	container "../container"
-	"../models"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
+	container "sampleGoWebProject/container"
+	"sampleGoWebProject/models"
 	"strconv"
 )
 
