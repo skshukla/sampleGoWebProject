@@ -3,7 +3,7 @@
 APP_BASE=http://localhost:8081
 
 function getAllEmployees() {
-  CMD="curl -sSX GET $APP_BASE/employees"
+  CMD="curl -sSX GET $APP_BASE/employees | jq ."
   echo 'CMD='$CMD
   /bin/sh -c "$CMD"
 }
