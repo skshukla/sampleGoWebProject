@@ -15,6 +15,7 @@ import (
 )
 
 type Container struct {
+	Profile string
 	appConfig       *config.AppConfig
 	initialized     bool
 	db              *gorm.DB
@@ -26,7 +27,7 @@ func (c *Container) WireDependencies() {
 		fmt.Println("Already initialized....")
 		return
 	}
-	c.appConfig = loadConfig()
+	c.appConfig = c.loadConfig()
 	c.GetEmployeeUseCase()
 	fmt.Println("Dependencies Injection Done!!")
 	c.initialized = true
@@ -58,11 +59,19 @@ func CreateDBConnection() (*gorm.DB, error) {
 	return con, nil
 }
 
-func loadConfig() *config.AppConfig{
+func (container *Container)loadConfig() *config.AppConfig{
 	config := &config.AppConfig{}
 	fmt.Println("Inside Load Config")
 	pwd, _ := os.Getwd()
-	configFilePath := pwd + "/ws_skshukla_go_projects/sampleGoWebProject/config/config.yaml"
+
+	var configFilePath string
+
+	if container.Profile == "test" {
+		configFilePath = pwd + "/../config/config-test.yaml"
+	} else {
+		configFilePath = pwd + "/config/config.yaml"
+	}
+
 	fileVal, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
 		log.Fatal(fmt.Sprintf("Config could not be loaded with error {%+v} from path {%s}!!", err, configFilePath))

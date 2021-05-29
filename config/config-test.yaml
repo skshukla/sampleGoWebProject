@@ -1,0 +1,10 @@
+server:
+  host: vm-sachin
+  port: 8081
+
+database:
+  host: localhost
+  port: 5432
+  username: sachin
+  password: 123456
+  dbname: mydb
