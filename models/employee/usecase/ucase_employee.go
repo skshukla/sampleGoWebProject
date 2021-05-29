@@ -26,3 +26,7 @@ func (o *employeeUseCase) FindAllEmployees() []models.Employee {
 	return o.employeeRepository.FindAllEmployees()
 }
 
+func ABCD()  string{
+	return "yes"
+}
+
